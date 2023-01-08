@@ -10,7 +10,6 @@ const pacienteSchema = mongoose.Schema(
     userId: {
       type: String,
       required: true,
-      default: "62c8a84bae4b730016889da2",
     },
     apellidos: {
       type: String,

@@ -20,22 +20,23 @@ app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
-app.use(cors());
+//app.use(cors());
 
-/*
-var allowedOrigins = ['https://historia-clinica.netlify.app'];
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      var msg = 'The CORS policy for this site does not ' +
-        'allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  }
-}));
-*/
+var allowedOrigins = ["https://historia-clinica.netlify.app"];
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        var msg =
+          "The CORS policy for this site does not " +
+          "allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 app.use("/user", userRouter);
 app.use("/pacientes", pacienteRoutes);
@@ -49,7 +50,6 @@ app.use("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5001;
-console.log(`Server Running on Port: http://localhost:${PORT}`);
 
 mongoose
   .connect(process.env.CONNECTION_URL, {
@@ -57,9 +57,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() =>
-    app.listen(PORT, () =>
-      console.log(`Server Running on Port: http://localhost:${PORT}`)
-    )
+    app.listen(PORT, () => console.log(`Server Running on Port: ${PORT}`))
   )
   .catch((error) => console.log(`${error} did not connect`));
 
