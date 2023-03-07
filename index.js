@@ -38,6 +38,7 @@ app.use(
   })
 );
 
+
 app.use("/user", userRouter);
 app.use("/pacientes", pacienteRoutes);
 app.use("/upload", uploadRouter);
